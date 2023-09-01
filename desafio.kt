@@ -4,29 +4,36 @@ class Usuario(val name: String)
 
 data class ConteudoEducacional(val nome: String, val duracao: Int = 60)
 
-data class Formacao(val nome: String, var conteudos: List<ConteudoEducacional>) {
+data class Formacao(val nome: String, val conteudos: List<ConteudoEducacional>) {
 
-    val inscritos = mutableListOf<Usuario>()
+val inscritos = mutableSetOf<Usuario>()
     
-    fun matricular(usuario: Usuario) {
-        //Utilize o parâmetro $usuario para simular uma matrícula (usar a lista de $inscritos)
-        inscritos.add(usuario)
-        println("${usuario.name} matriculado!")
+    fun matricular(vararg usuario: Usuario) {
+        for(u in usuario){
+            print(u.name)
+
+            if(inscritos.add(u))
+            	println(" foi matriculado.")
+            else
+            	println(" já estava matriculado, nenhuma ação realizada.");
+        }
     }
 }
 
 fun main() {
-    //lista de conteudos
     val contentList = listOf(ConteudoEducacional("Git", 40), ConteudoEducacional("Kotlin"), ConteudoEducacional("Linkedin", 25))
-    //instância do curso
     val kotlinForm = Formacao("Kotlin", contentList)
     //alunos
     val user1 = Usuario(name="Aluno Um")
+    val user2 = Usuario(name="Aluno Dois")
+    val user3 = Usuario(name="Aluno Tres")
+    val user4 = Usuario(name="Aluno Quatro")
+    val user5 = Usuario(name="Aluno Cinco")
     
-    //matriculando um aluno
+    //matriculando alunos
     kotlinForm.matricular(user1)
-    
-    //matriculando vários alunos
+    kotlinForm.matricular(user2, user3)
+    kotlinForm.matricular(user2, user4, user3, user5)
     
     
     
